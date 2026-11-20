@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>webpa — elektronika internet-do'koni</title>
+  <meta name="description" content="webpa — smartfonlar, noutbuklar, quloqchinlar va boshqa elektronika. Tez yetkazib berish va rasmiy kafolat.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%234f46e5'/><text x='16' y='22' font-family='Arial' font-weight='700' font-size='17' fill='white' text-anchor='middle'>w</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/store.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-main">
+      <a href="#/" class="logo" aria-label="webpa bosh sahifa"><span class="logo-mark">w</span>webpa</a>
+      <form class="search" id="searchForm" role="search">
+        <input class="input" type="search" name="q" placeholder="Mahsulot, brend yoki model qidiring…" aria-label="Qidiruv">
+        <button class="search-btn" aria-label="Qidirish"></button>
+      </form>
+      <nav class="header-actions" id="headerActions"></nav>
+    </div>
+    <div class="cat-nav">
+      <div class="container cat-nav-inner" id="catNav"></div>
+    </div>
+  </header>
+
+  <main id="app" class="container"></main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <a href="#/" class="logo logo-light"><span class="logo-mark">w</span>webpa</a>
+        <p class="footer-text">Original elektronika — rasmiy kafolat va O'zbekiston bo'ylab tez yetkazib berish.</p>
+      </div>
+      <div>
+        <h4>Xaridorlarga</h4>
+        <a href="#/catalog">Katalog</a>
+        <a href="#/catalog?discount=1">Chegirmalar</a>
+        <a href="#/account">Buyurtmalarim</a>
+      </div>
+      <div>
+        <h4>Aloqa</h4>
+        <a href="tel:+998712000000">+998 71 200 00 00</a>
+        <a href="mailto:info@webpa.uz">info@webpa.uz</a>
+        <span>Toshkent sh., har kuni 9:00–21:00</span>
+      </div>
+    </div>
+    <div class="container footer-bottom">© <span id="year"></span> webpa. Barcha huquqlar himoyalangan.</div>
+  </footer>
+
+  <script type="module" src="/js/store.js"></script>
+</body>
+</html>

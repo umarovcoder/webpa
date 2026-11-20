@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kirish — webpa</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="/css/base.css">
+  <style>
+    .cb { min-height: 100vh; display: grid; place-items: center; padding: 16px; }
+    .cb-card { max-width: 420px; width: 100%; text-align: center; padding: 32px; }
+    .cb-card .loader { margin: 0 auto 18px; }
+    .cb-card h1 { font-size: 20px; margin-bottom: 8px; }
+    .cb-card .btn { margin-top: 18px; }
+  </style>
+</head>
+<body>
+  <div class="cb">
+    <div class="card-box cb-card" id="box">
+      <div class="loader"></div>
+      <h1>Google orqali kirilmoqda…</h1>
+      <p class="muted">Bir oz kuting</p>
+    </div>
+  </div>
+  <script type="module" src="/js/auth-callback.js"></script>
+</body>
+</html>
