@@ -100,21 +100,33 @@ const PRODUCTS = [
 ];
 
 export async function seed() {
-  if (db.prepare('SELECT COUNT(*) AS n FROM categories').get().n === 0) {
-    tx(() => {
-      const insCat = db.prepare('INSERT INTO categories (name, slug, icon, sort) VALUES (?, ?, ?, ?)');
-      const catIds = {};
-      CATEGORIES.forEach(([name, icon], i) => {
-        catIds[name] = Number(insCat.run(name, slugify(name), icon, i).lastInsertRowid);
-      });
-      const insProd = db.prepare(`
-        INSERT INTO products (name, slug, brand, description, category_id, price, old_price, stock, specs, featured)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
-      for (const [cat, name, brand, price, oldPrice, stock, featured, desc, specs] of PRODUCTS) {
-        insProd.run(name, slugify(name), brand, desc, catIds[cat], price, oldPrice, stock, JSON.stringify(specs), featured);
+  let categoriesAdded = 0;
+  let productsAdded = 0;
+  tx(() => {
+    const insCat = db.prepare('INSERT INTO categories (name, slug, icon, sort) VALUES (?, ?, ?, ?)');
+    const catIds = {};
+    CATEGORIES.forEach(([name, icon], i) => {
+      const slug = slugify(name);
+      let category = db.prepare('SELECT id FROM categories WHERE slug = ?').get(slug);
+      if (!category) {
+        category = { id: Number(insCat.run(name, slug, icon, i).lastInsertRowid) };
+        categoriesAdded++;
       }
+      catIds[name] = category.id;
     });
-    console.log(`[webpa] Demo ma'lumotlar qo'shildi: ${CATEGORIES.length} kategoriya, ${PRODUCTS.length} mahsulot`);
+
+    const insProd = db.prepare(`
+      INSERT INTO products (name, slug, brand, description, category_id, price, old_price, stock, specs, featured)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
+    for (const [cat, name, brand, price, oldPrice, stock, featured, desc, specs] of PRODUCTS) {
+      const slug = slugify(name);
+      if (db.prepare('SELECT id FROM products WHERE slug = ?').get(slug)) continue;
+      insProd.run(name, slug, brand, desc, catIds[cat], price, oldPrice, stock, JSON.stringify(specs), featured);
+      productsAdded++;
+    }
+  });
+  if (categoriesAdded || productsAdded) {
+    console.log(`[webpa] Demo ma'lumotlar qo'shildi: ${categoriesAdded} kategoriya, ${productsAdded} mahsulot`);
   }
 
   const email = (process.env.ADMIN_EMAIL || '').trim().toLowerCase();

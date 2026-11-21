@@ -125,14 +125,16 @@ function renderCatNav() {
 /* ================= Sahifalar ================= */
 
 async function pageHome() {
-  const [featured, deals, fresh] = await Promise.all([
+  const [featured, deals, fresh, all] = await Promise.all([
     api('/products?featured=1&limit=8'),
     api('/products?discount=1&sort=discount&limit=4'),
     api('/products?sort=newest&limit=8'),
+    api('/products?limit=8'),
   ]);
-  remember([...featured.items, ...deals.items, ...fresh.items]);
+  const featuredItems = featured.items.length ? featured.items : all.items;
+  remember([...featuredItems, ...deals.items, ...fresh.items, ...all.items]);
 
-  const hero = featured.items[0];
+  const hero = featuredItems[0];
   app.innerHTML = `
     <section class="hero">
       <div class="hero-text">
@@ -164,8 +166,8 @@ async function pageHome() {
       </a>`).join('')}</div>`)}
 
     ${deals.items.length ? section('🔥 Chegirmalar', '#/catalog?discount=1', grid(deals.items)) : ''}
-    ${section('Tavsiya etamiz', '#/catalog?featured=1', grid(featured.items))}
-    ${section('Yangi kelganlar', '#/catalog?sort=newest', grid(fresh.items))}`;
+    ${section('Tavsiya etamiz', '#/catalog?featured=1', grid(featuredItems))}
+    ${section('Yangi kelganlar', '#/catalog?sort=newest', grid(fresh.items.length ? fresh.items : all.items))}`;
 }
 
 async function pageCatalog({ query }) {
